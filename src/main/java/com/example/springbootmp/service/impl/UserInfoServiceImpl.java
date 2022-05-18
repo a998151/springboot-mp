@@ -5,7 +5,11 @@ import com.example.springbootmp.entity.UserInfo;
 import com.example.springbootmp.service.UserInfoService;
 import com.example.springbootmp.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -19,15 +23,30 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private DataSourceTransactionManager dataSourceTransactionManager;
+
+    @Autowired
+    private TransactionDefinition transactionDefinition;
+
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void insertNew() {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserName("阿牛");
-        userInfo.setAge(10);
-        userInfo.setSex("男");
-        userInfoMapper.insert(userInfo);
-        this.updateNew();
+        //手动开启事务
+        TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
+        try {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserName("阿牛");
+            userInfo.setAge(10);
+            userInfo.setSex("男");
+            userInfoMapper.insert(userInfo);
+            this.updateNew();
+
+            //手动提交
+            dataSourceTransactionManager.commit(transactionStatus);
+        }catch (Exception e){
+            //手动回滚
+            dataSourceTransactionManager.rollback(transactionStatus);
+        }
     }
 
     @Override
