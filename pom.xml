@@ -13,9 +13,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-mp</name>
     <description>springboot-mp</description>
+
     <properties>
         <java.version>1.8</java.version>
+        <guava.verison>30.1.1-jre</guava.verison>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,6 +52,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.verison}</version>
         </dependency>
 
     </dependencies>
