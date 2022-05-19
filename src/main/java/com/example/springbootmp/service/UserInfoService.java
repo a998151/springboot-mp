@@ -16,4 +16,5 @@ public interface UserInfoService extends IService<UserInfo> {
 
     void updateNew();
 
+    void insert3();
 }
