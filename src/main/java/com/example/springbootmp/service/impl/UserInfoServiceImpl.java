@@ -7,6 +7,7 @@ import com.example.springbootmp.service.UserInfoService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -36,29 +37,28 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private DataSourceTransactionManager dataSourceTransactionManager;
 
     @Autowired
-    private TransactionDefinition transactionDefinition;
-
-    @Autowired
     private UserInfo2ServiceImpl userInfo2Service;
 
     @Override
     @Transactional
     public void insertNew() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(1);
         userInfo.setUserName("阿牛");
         userInfo.setAge(10);
         userInfo.setSex("男");
 
         userInfoMapper.insert(userInfo);
 
-        this.updateNew();
+        updateNew();
         userInfo2Service.updateNew();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class , propagation = Propagation.REQUIRES_NEW)
     public void updateNew() {
+        List<UserInfo> list = list();
+        log.info("count = {}" , list.size());
+
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName("阿牛");
         userInfo.setAge(10);
