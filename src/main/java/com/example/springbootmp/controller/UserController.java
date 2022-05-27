@@ -16,7 +16,7 @@ public class UserController {
 
     @GetMapping("/test")
     public String test(){
-        userInfoService.insertNew();
+        userInfoService.insert4();
         return "ok";
     }
 }

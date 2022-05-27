@@ -1,5 +1,6 @@
 package com.example.springbootmp.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.example.springbootmp.entity.UserInfo;
 import com.example.springbootmp.mapper.UserInfoMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,9 @@ public class UserInfo2ServiceImpl {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
-    @Transactional(rollbackFor = Exception.class , propagation = Propagation.REQUIRES_NEW)
+
+    @DS("slave")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void updateNew() {
         UserInfo userInfo = new UserInfo();
         userInfo.setUserName("阿牛");

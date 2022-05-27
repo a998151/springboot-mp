@@ -1,11 +1,24 @@
 spring:
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/demo_db?useSSL=false&useUnicode=true&characterEncoding=utf8
-    username: root
-    password: 123456
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/demo_db?useSSL=false&useUnicode=true&characterEncoding=utf8
+          username: root
+          password: 123456
+          type: com.zaxxer.hikari.HikariDataSource
+        slave:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/demo_db?useSSL=false&useUnicode=true&characterEncoding=utf8
+          username: root
+          password: 123456
+          type: com.zaxxer.hikari.HikariDataSource
+
   main:
     allow-circular-references: true
   profiles:
     active: dev
+#  aop:
+#    proxy-target-class: false

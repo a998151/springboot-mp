@@ -1,5 +1,6 @@
 package com.example.springbootmp.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.springbootmp.entity.UserInfo;
 import com.example.springbootmp.mapper.UserInfoMapper;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Properties;
 
@@ -35,6 +37,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Autowired
     private DataSourceTransactionManager dataSourceTransactionManager;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private UserInfo2ServiceImpl userInfo2Service;
@@ -79,6 +87,25 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         jdbcTemplate.execute("INSERT INTO user_info(`user_name` , `age` , `sex`) VALUES ('阿牛' , 11 , '男')");
         transactionManager.commit(status);
     }
+
+    @Override
+    public void insert4(){
+        TransactionStatus transaction = null;
+        try {
+            transaction = dataSourceTransactionManager.getTransaction(new DefaultTransactionDefinition());
+            jdbcTemplate.execute("INSERT INTO user_info(`id` , `user_name` , `age` , `sex`) VALUES (100 , '阿牛' , 11 , '男')");
+
+            userInfo2Service.updateNew();
+//            dataSourceTransactionManager.commit(transaction);
+            dataSourceTransactionManager.rollback(transaction);
+            log.info("回滚成功");
+        }catch (Exception e){
+//            dataSourceTransactionManager.rollback(transaction);
+        }
+    }
+
+
+
 
     public HikariDataSource createDataSource() {
         final Properties config = new Properties();
