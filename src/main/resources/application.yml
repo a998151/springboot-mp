@@ -23,5 +23,8 @@ spring:
     allow-circular-references: true
   profiles:
     active: dev
+  redis:
+    host: 49.234.41.101
+    port: 6382
 #  aop:
 #    proxy-target-class: false
