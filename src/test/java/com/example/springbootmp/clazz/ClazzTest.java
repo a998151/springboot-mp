@@ -22,4 +22,9 @@ public class ClazzTest {
         Class<?> anInt = ClassUtils.forName(list.getClass().getName(), Thread.currentThread().getContextClassLoader());
         log.info(anInt.getSimpleName());
     }
+
+    @Test
+    public void testName(){
+        System.out.println(String.class.getCanonicalName().substring(String.class.getCanonicalName().lastIndexOf(".") + 1));
+    }
 }

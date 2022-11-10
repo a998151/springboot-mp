@@ -17,9 +17,26 @@
     <properties>
         <java.version>1.8</java.version>
         <guava.verison>30.1.1-jre</guava.verison>
+        <groovy-version>2.4.15</groovy-version>
+        <hibernate-validator-version>6.2.0.Final</hibernate-validator-version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.16.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.jsonzou</groupId>
+            <artifactId>jmockdata</artifactId>
+            <version>4.3.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -91,6 +108,18 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
             <version>3.16.6</version>
+        </dependency>
+
+        <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator-version}</version>
         </dependency>
 
     </dependencies>
